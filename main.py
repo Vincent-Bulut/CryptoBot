@@ -34,9 +34,12 @@ if __name__ == '__main__':
 
     logging.debug('get orderbook')
     btcusdt_orderbook = cryptos.get_orderbook(spot_client, 'BTCUSDT')
+    
+    print(btcusdt_orderbook.head(2))
 
     logging.debug('get recent trades')
     btcusdt_recent_trades = cryptos.get_recent_trades(spot_client, 'BTCUSDT')
+    
 
     logging.debug('display candles binance mode')
     cryptos.display_candles_binance(btcusdt_historical_prices)
