@@ -3,6 +3,8 @@ import Constants as cte
 from Exchange import Connector, Exchange
 from Asset import Crypto
 
+
+
 if __name__ == '__main__':
     logging.basicConfig(format=cte.LOG_FORMAT,
                         datefmt=cte.LOG_DATE_FORMAT,
@@ -25,21 +27,25 @@ if __name__ == '__main__':
 
     Exchange.put_tickers_info_on_binance_intoXL(spot_client, list(cryptos.tickers.keys()))
     logging.debug('crypto info retrieved into XL file ' + cte.PATH_TICKERS_INFO_BINANCE)
+#markets = {'BTCUSDT': 'Bitcoin', 'ETHUSDT': 'Ethereum', 'BNBUSDT': 'Binance USD', 'LTCUSDT': 'Litecoin', 'ADAUSDT': 'Cardano', 'XRPUSDT': 'XRP', 'VETUSDT': 'VeChain', 'MATICUSDT': 'Polygon', 'DOGEUSDT': 'Dogecoin', 'SOLUSDT': 'Solana', 'SHIBUSDT': 'Shiba Inu'}
+markets= Crypto().__dict__['tickers']
 
-    logging.debug('Get current btcusdt price on binance')
-    btcusdt_spot = cryptos.get_ticker_current_price_on_binance(spot_client, 'BTCUSDT')
+for symbol, name in markets.items():
+    logging.debug(f"Get current price for {name} on binance")
+    ticker = cryptos.get_ticker_current_price_on_binance(spot_client, symbol)
 
-    logging.debug('get btcusdt klines')
-    btcusdt_historical_prices = cryptos.get_ticker_historical_prices_on_binance(spot_client, 'BTCUSDT', '1h')
+    logging.debug(f"Get historical prices for {name} on binance")
+    historical_prices = cryptos.get_ticker_historical_prices_on_binance(spot_client, symbol, '1h')
 
-    logging.debug('get orderbook')
-    btcusdt_orderbook = cryptos.get_orderbook(spot_client, 'BTCUSDT')
+    logging.debug(f"Get orderbook for {name}")
+    orderbook = cryptos.get_orderbook(spot_client, symbol)
 
-    logging.debug('get recent trades')
-    btcusdt_recent_trades = cryptos.get_recent_trades(spot_client, 'BTCUSDT')
+    print(orderbook.head(2))
 
-    logging.debug('display candles binance mode')
-    cryptos.display_candles_binance(btcusdt_historical_prices)
+    logging.debug(f"Get recent trades for {name}")
+    recent_trades = cryptos.get_recent_trades(spot_client, symbol)
 
-    logging.debug('End of process')
-
+    logging.debug(f"Display candles for {name} on binance mode")
+    cryptos.display_candles_binance(historical_prices)
+    
+logging.debug('End of process')
