@@ -159,11 +159,11 @@ class Crypto:
     @staticmethod
     def get_Ichimoku_data(data: pd.DataFrame) -> pd.DataFrame:
         high9 = data.high.rolling(9).max()
-        low9 = data.high.rolling(9).min()
+        low9 = data.low.rolling(9).min()
         high26 = data.high.rolling(26).max()
-        low26 = data.high.rolling(26).min()
+        low26 = data.low.rolling(26).min()
         high52 = data.high.rolling(52).max()
-        low52 = data.high.rolling(52).min()
+        low52 = data.low.rolling(52).min()
 
         data['tenkan_sen'] = (high9 + low9) / 2
         data['kijun_sen'] = (high26 + low26) / 2
